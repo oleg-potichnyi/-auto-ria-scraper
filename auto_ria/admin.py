@@ -1,5 +1,5 @@
 from django.contrib import admin
 
-from scraper.models import Scraper
+from auto_ria.models import Scraper
 
 admin.site.register(Scraper)

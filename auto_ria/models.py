@@ -12,7 +12,13 @@ class Scraper(models.Model):
     images_count = models.IntegerField()
     car_number = models.CharField(max_length=20)
     car_vin = models.CharField(max_length=20)
-    datetime_found = models.DateField(auto_now_add=True)
+    datetime_found = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs) -> None:
+        self.odometer = self.convert_odometer_value(str(self.odometer))
+        if not self.is_valid_phone_number(str(self.phone_number)):
+            raise ValueError("Invalid phone number format")
+        super().save(*args, **kwargs)
 
     @staticmethod
     def convert_odometer_value(odometer) -> int:
@@ -26,15 +32,9 @@ class Scraper(models.Model):
 
     @staticmethod
     def is_valid_phone_number(phone_number) -> str:
-        return phone_number.startswith('+380') and len(phone_number) == 13
-
-    def save(self, *args, **kwargs) -> None:
-        if not self.is_valid_phone_number(str(self.phone_number)):
-            raise ValueError("Invalid phone number format")
-        super().save(*args, **kwargs)
+        return phone_number.startswith("+380") and len(phone_number) == 13
 
     class Meta:
-
         ordering = ["title"]
 
     def __str__(self) -> str:
