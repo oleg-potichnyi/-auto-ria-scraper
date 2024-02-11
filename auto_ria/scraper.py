@@ -25,7 +25,7 @@ def scrape_cars() -> list[Scraper]:
                     images_count=car_dict.get("images_count"),
                     car_number=car_dict.get("car_number"),
                     car_vin=car_dict.get("car_vin"),
-                    datetime_found=datetime.datetime.now()
+                    datetime_found=datetime.datetime.now(),
                 )
             )
     return cars
@@ -36,7 +36,11 @@ def dump_database() -> None:
     if current_time == "12:00":
         if not os.path.exists("dumps"):
             os.makedirs("dumps")
-        dump_filename = f"dumps/dump_{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.sql"
+        dump_filename = (
+            f""
+            f"dumps/dump_"
+            f"{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.sql"
+        )
         pg_dump_command = (
             f"pg_dump -U {settings.DATABASES['default']['USER']} "
             f"-d {settings.DATABASES['default']['NAME']} "

@@ -24,7 +24,9 @@ class Migration(migrations.Migration):
                 ),
                 ("url", models.URLField(max_length=255)),
                 ("title", models.CharField(max_length=255)),
-                ("price_usd", models.DecimalField(decimal_places=2, max_digits=10)),
+                ("price_usd", models.DecimalField(
+                    decimal_places=2, max_digits=10
+                )),
                 ("odometer", models.IntegerField()),
                 ("username", models.CharField(max_length=255)),
                 ("phone_number", models.CharField(max_length=15)),
