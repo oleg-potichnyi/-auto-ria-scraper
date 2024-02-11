@@ -34,7 +34,12 @@ def dump_database() -> None:
         if not os.path.exists("dumps"):
             os.makedirs("dumps")
         dump_filename = f"dumps/dump_{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.sql"
-        os.system(f"pg_dump -U {settings.DATABASES.USER} {settings.DATABASES.NAME} {dump_filename}")
+        pg_dump_command = (
+            f"pg_dump -U {settings.DATABASES['default']['USER']} "
+            f"-d {settings.DATABASES['default']['NAME']} "
+            f"> {dump_filename}"
+        )
+        os.system(pg_dump_command)
 
 
 if __name__ == "__main__":
